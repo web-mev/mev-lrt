@@ -1,0 +1,1 @@
+Rscript /opt/software/deseq2.R {{raw_counts}} {{annotations}} "{{covariate}}"
