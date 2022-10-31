@@ -8,6 +8,14 @@ The outputs are:
 - A tab-delimited file of the differential expression results merged with the normalized counts
 - A tab-delimited file of just the normalized counts.
 - A string telling us which inter-group comparison produced the log2 fold change estimate.
+- A json-format string giving the mapping of groups to samples. For example,
+```
+{
+    "groupA": ["sampleA", "sampleB"],
+    "groupB": ["sample1", "sample2"]
+}
+```
+(This is mainly for convenience for our WebMeV frontend. The annotations come directly from the annotation file provided as an input.)
 
 The concatenation of the differential expression results and counts is for convenience with the WebMeV frontend interface since it avoids pulling data from two different files.
 

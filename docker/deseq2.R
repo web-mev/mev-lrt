@@ -1,4 +1,5 @@
 suppressMessages(suppressWarnings(library("DESeq2", character.only=T, warn.conflicts = F, quietly = T)))
+suppressMessages(suppressWarnings(library("jsonlite", character.only=T, warn.conflicts = F, quietly = T)))
 
 # args from command line:
 args<-commandArgs(TRUE)
@@ -185,9 +186,25 @@ output_filename <- paste(OUTPUT_DESEQ_FILE_BASE, COVARIATE, 'tsv', sep='.')
 output_filename <- paste(working_dir, output_filename, sep='/')
 write.table(m, output_filename, sep='\t', quote=F)
 
+# for ease on the frontend, create a simple data structure mapping
+# the groups to an array of samples:
+unique_groups <- levels(annotations$group)
+sample_mapping = list()
+for(x in unique_groups){
+    samplenames <- annotations[annotations$group == x, SAMPLE_ID_COL]
+    remapped_cols <- colname_mapping[samplenames, 'orig_names']
+    sample_mapping[[x]] <- remapped_cols
+}
+j <- jsonlite::toJSON(sample_mapping)
+
+# need to escape the double-quotes since we are nesting a JSON structure
+# in a JSON structure.
+j <- gsub('"', '\\\\"', j)
+
 json_str = paste0(
        '{"dge_results":"', output_filename, '",',
        '"lfc_comparison":"', lfc_comparison, '",',
+       '"sample_to_group_mapping":"', j, '",',
        '"normalized_counts":"', OUTPUT_NORMALIZED_COUNTS, '"}'
 )
 output_json <- paste(working_dir, 'outputs.json', sep='/')

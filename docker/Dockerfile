@@ -29,6 +29,6 @@ ADD environment.yml /opt/software/
 RUN conda env create -f /opt/software/environment.yml
 
 # add to the PATH. Otherwise, conda can swallow return codes
-ENV PATH="/opt/software/miniconda/envs/deseq2_env/bin:${PATH}"
+ENV PATH="/opt/software/miniconda/envs/deseq2/bin:${PATH}"
 
 ENTRYPOINT ["/bin/bash"]

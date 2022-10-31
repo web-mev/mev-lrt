@@ -53,6 +53,13 @@
                 "many": false
             }
         },
+        "sample_to_group_mapping": {
+            "required": true,
+            "converter": "api.converters.json_converters.JsonConverter",
+            "spec": {
+                "attribute_type": "UnrestrictedString"
+            }
+        },
         "lfc_comparison": {
             "required": true,
             "converter": "api.converters.basic_attributes.UnrestrictedStringConverter",
