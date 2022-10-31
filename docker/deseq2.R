@@ -184,7 +184,7 @@ colnames(m) <- cols
 
 output_filename <- paste(OUTPUT_DESEQ_FILE_BASE, COVARIATE, 'tsv', sep='.')
 output_filename <- paste(working_dir, output_filename, sep='/')
-write.table(m, output_filename, sep='\t', quote=F)
+write.table(m, output_filename, sep='\t', quote=F, row.names=F)
 
 # for ease on the frontend, create a simple data structure mapping
 # the groups to an array of samples:
