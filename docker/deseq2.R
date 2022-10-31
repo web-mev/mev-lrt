@@ -168,8 +168,8 @@ nc_cols = colnames(nc)
 remapped_cols = colname_mapping[nc_cols, 'orig_names']
 colnames(nc) = remapped_cols
 nc <- cbind(gene=rownames(nc), nc)
-fout2 <- paste(working_dir, OUTPUT_NORMALIZED_COUNTS, sep='/')
-write.table(nc, fout2, sep='\t', quote=F, row.names=F)
+nc_output <- paste(working_dir, OUTPUT_NORMALIZED_COUNTS, sep='/')
+write.table(nc, nc_output, sep='\t', quote=F, row.names=F)
 
 # merge to create a single table, which makes frontend work easier
 m <- merge(res, nc, by.x="Gene", by.y=0)
@@ -205,7 +205,7 @@ json_str = paste0(
        '{"dge_results":"', output_filename, '",',
        '"lfc_comparison":"', lfc_comparison, '",',
        '"sample_to_group_mapping":"', j, '",',
-       '"normalized_counts":"', OUTPUT_NORMALIZED_COUNTS, '"}'
+       '"normalized_counts":"', nc_output, '"}'
 )
 output_json <- paste(working_dir, 'outputs.json', sep='/')
 write(json_str, output_json)
