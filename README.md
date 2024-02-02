@@ -29,21 +29,17 @@ Either:
 - build the Docker image using the contents of the `docker/` folder (e.g. `docker build -t myuser/deseq2:v1 .`) 
 - pull the docker image from the GitHub container repository (see https://github.com/web-mev/mev-lrt/pkgs/container/mev-lrt)
 
-To run, enter the container in an interactive shell:
+To run the tool, change into a directory containing the count matrix and annotation files. Then:
 ```
-docker run -it -v$PWD:/work <IMAGE>
-```
-(here, we mount the current directory to `/work` inside the container)
-
-
-Then, run the script:
-```
-Rscript /opt/software/deseq2.R \
-    <path to raw/integer counts> \
-    <path to annotations> \
+docker run -d -v $PWD:/work <IMAGE> Rscript /usr/local/bin/deseq2.R \
+    /work/<raw/integer counts> \
+    /work/<annotations> \
     <covariate/column name>
 ```
+Note that we mounted the current working directory (on the host machine) to `/work` in the container. Thus, your count and annotation files are relative
+to `/work` as shown above.
+
 The call to the script assumes the following:
 - The input file of expression counts is tab-delimited format and contains only integer entries
-- The annotation matrix contains the sample IDs in the first column (such that they have *some* intersection with the sample names in the count matrix) and other covariates in the following columns (e.g. phenotype, treatment, experimental group, etc.)
+- The annotation matrix contains the sample IDs in the first column (such that they have *some* non-null intersection with the sample names in the count matrix) and other covariates in the following columns (e.g. phenotype, treatment, experimental group, etc.)
 - The final argument providing the column name *exactly* matches that column header in the annotation file.
